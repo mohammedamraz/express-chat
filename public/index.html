@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat Application</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    function joinRoom() {
+      const room = document.getElementById('roomInput').value;
+      socket.emit('join', room);
+      document.getElementById('messageInput').removeAttribute('disabled');
+      document.getElementById('sendButton').removeAttribute('disabled');
+    }
+
+    function sendMessage() {
+      const message = document.getElementById('messageInput').value;
+      if (message.trim() !== '') {
+        socket.emit('message', message);
+        document.getElementById('messageInput').value = '';
+      }
+    }
+
+    socket.on('message', (data) => {
+      const room = document.getElementById('roomInput').value;
+      const messages = document.getElementById('messages');
+      messages.innerHTML += `<li><strong>${data.sender} - Message from room ${room}:</strong> ${data.message}</li>`;
+    });
+
+    socket.on('userJoined', (message) => {
+      const messages = document.getElementById('messages');
+      messages.innerHTML += `<li>${message}</li>`;
+    });
+
+    socket.on('userLeft', (message) => {
+      const messages = document.getElementById('messages');
+      messages.innerHTML += `<li>${message}</li>`;
+    });
+  </script>
+</head>
+<body>
+  <input type="text" id="roomInput" placeholder="Enter room name">
+  <button onclick="joinRoom()">Join Room</button><br>
+  <input type="text" id="messageInput" placeholder="Type a message" >
+  <button onclick="sendMessage()" id="sendButton" >Send</button>
+  <ul id="messages"></ul>
+</body>
+</html>

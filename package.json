@@ -1,0 +1,16 @@
+{
+  "name": "express-chat",
+  "version": "1.0.0",
+  "description": "This is a simple chat application built with Node.js, Express, and Socket.io that allows users to:",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.7.2"
+  }
+}
